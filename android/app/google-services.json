@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "298732616113",
+    "project_id": "mail-room-32a90",
+    "storage_bucket": "mail-room-32a90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298732616113:android:11a9283ce15ba10f9f2590",
+        "android_client_info": {
+          "package_name": "com.amfoss.mail_room"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298732616113-q6qjboh43q3c964tu41brvslgn08te3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amfoss.mail_room",
+            "certificate_hash": "267d2d5f3f1f07b012fad4e05b779dba03dfa1a2"
+          }
+        },
+        {
+          "client_id": "298732616113-8dg9kea58t11s93bje6s6bvb6a43a4th.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMVVMxAjVTaHtVzAKBDG1ySHzrAPaGhqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298732616113-8dg9kea58t11s93bje6s6bvb6a43a4th.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
