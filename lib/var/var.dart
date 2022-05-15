@@ -73,6 +73,9 @@ package() {
 }
 List<Package> parcel = [Package("Name","Status","Vendor","Type","Date","","")];
 Package_list(String batch) {
+  if(parcel.length>=1){
+    List<Package> parcel = [Package("Name","Status","Vendor","Type","Date","","")];
+  }
   String? uid = user?.uid;
   return FutureBuilder<QuerySnapshot>(
       future: FirebaseFirestore.instance.collection('User').doc(uid).collection('Package').doc("list").collection(batch).get(),

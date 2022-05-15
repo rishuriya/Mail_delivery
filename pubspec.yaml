@@ -41,6 +41,7 @@ dependencies:
   custom_radio_grouped_button: ^2.1.2
   firebase_database: ^9.0.14
   calendar_timeline: ^1.0.4
+  flutter_email_sender: ^5.1.0
 
 dev_dependencies:
   flutter_test:

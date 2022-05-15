@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:mail_room/var/var.dart';
-
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'Login.dart';
 
 class edit_package extends StatefulWidget {
@@ -200,14 +200,17 @@ class _edit_packageState extends State<edit_package> {
               "Delivered": Delivered_admin,
             });
             late String sid;
+            late String email;
             var collection = FirebaseFirestore.instance.collection('User');
             var querySnapshot = await collection.get();
             for (var queryDocumentSnapshot in querySnapshot.docs) {
               var data = queryDocumentSnapshot.data();
               if (data["roll"] == roll) {
                 sid = data['uid'];
+                email=data['email'];
               }
             }
+
             if (sid == null) {
               final snackbar = SnackBar(
                 content: const Text('Invalid Roll number'),
@@ -235,6 +238,16 @@ class _edit_packageState extends State<edit_package> {
                 "description": des,
                 "id": digiid,
               });
+
+              final Email send_email = Email(
+                body: 'The Mail department want to inform ${roll} that your parcel is collected and collected by ${des}',
+                subject: 'Regarding Parcel',
+                recipients: [email],
+                isHTML: false,
+              );
+
+              await FlutterEmailSender.send(send_email);
+
               print(sid);
               late int? package_std;
               late int? Delivered_std;

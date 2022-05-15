@@ -286,7 +286,3 @@ class _LoginState extends State<Login> {
     }
   }
 }
-String dropdownvalue_ecom = '___Select Evendor___';
-String dropdownvalue_class = '___Select Batch___';
-var Evendor =  ["___Select Evendor___","Amazon","Flipkart","Meesho","Mytra","Courier","Others"];
-var batch =  ["___Select Batch___","CSE","AIE","EEE","ELC","ECE","ME"];
