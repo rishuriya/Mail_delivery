@@ -64,7 +64,7 @@ class _LoginState extends State<Login> {
                 ),
                 Text(
                   //TODO update this
-                  'Join Mr BookWorm!',
+                  'Amrita Courier Handaling',
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Colors.white,
