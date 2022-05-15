@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
         children: <Widget>[
           Image.asset(
             //TODO update this
-            'assets/images/background.png',
+            'assets/images/Background1.png',
             fit: BoxFit.fill,
             height: double.infinity,
             width: double.infinity,

@@ -29,7 +29,7 @@ class _deliveredState extends State<delivered> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text(
-          'PACKAGE ',
+          'PACKAGES ',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.normal, fontSize: 25),
         ),

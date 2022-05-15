@@ -19,30 +19,16 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
 
-
-    //TODO update what details you want
-    //test feild state
     String mode="Admin";
-    var items =  ["___Select Role___","STUDENT","ADMIN"];
     String? email;
     String? password;
-    String cllgname = "";
-    String city = "";
     String rollnumber = "";
-
-    //for showing loading
-    bool loading = false;
-
-    // this below line is used to make notification bar transparent
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return Scaffold(
       body: Stack(
         children: <Widget>[
           Image.asset(
-            //TODO update this
-            'assets/images/background.png',
+            'assets/images/Background1.png',
             fit: BoxFit.fill,
             height: double.infinity,
             width: double.infinity,

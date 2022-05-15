@@ -52,7 +52,7 @@ class _add_packageState extends State<add_package> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text(
-          'ADD INCOME',
+          'ADD PACKAGE',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.normal, fontSize: 25),
         ),
