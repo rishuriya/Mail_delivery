@@ -240,7 +240,7 @@ class _edit_packageState extends State<edit_package> {
               });
 
               final Email send_email = Email(
-                body: 'The Mail department want to inform ${roll} that your parcel is collected and collected by ${des}',
+                body: 'The Mail department want to inform ${roll} that your parcel is collected  ${des}',
                 subject: 'Regarding Parcel',
                 recipients: [email],
                 isHTML: false,
