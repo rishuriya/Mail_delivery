@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
       .collection("User")
       .doc(user?.uid)
       .collection("Package");
-  String date = DateTime.now().toString().substring(5, 7);
+  String date = DateTime.now().toString().substring(0, 9);
   String year = DateTime.now().toString().substring(0, 4);
   final String? kYellowColor = "lol";
   final String? pColor = "nothing";
@@ -46,16 +46,13 @@ class _HomeState extends State<Home> {
         ),
         body: SingleChildScrollView(
             child: StreamBuilder<DocumentSnapshot>(
-                stream: usersdata
-                    .doc("amount")
-                    .collection(year)
-                    .doc(int.parse(date).toString())
+                stream: usersdata.doc(year)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: Text("Error"),
                     );
                   }
 
@@ -149,7 +146,7 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     RichText(
                                                         text: TextSpan(
-                                                            text: '0',
+                                                            text: '${data['Package'].toString()}',
                                                             style: TextStyle(
                                                               color:
                                                                   Colors.black,
@@ -216,7 +213,7 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     RichText(
                                                         text: TextSpan(
-                                                            text: '0',
+                                                            text: '${data['Delivered'].toString()}',
                                                             style: TextStyle(
                                                               color:
                                                                   Colors.black,

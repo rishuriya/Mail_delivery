@@ -38,6 +38,9 @@ dependencies:
   firebase_auth: ^3.3.18
   font_awesome_flutter: ^10.1.0
   flutter_spinkit: ^5.1.0
+  custom_radio_grouped_button: ^2.1.2
+  firebase_database: ^9.0.14
+  calendar_timeline: ^1.0.4
 
 dev_dependencies:
   flutter_test:

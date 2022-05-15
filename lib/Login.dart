@@ -267,20 +267,26 @@ class _LoginState extends State<Login> {
     var querySnapshot = await collection.get();
     for (var queryDocumentSnapshot in querySnapshot.docs) {
       var data = queryDocumentSnapshot.data();
-      role = data['type'].toString();
+      if(data["uid"]==user?.uid) {
+        role = data['type'].toString();
+      }
     }
-
-    if (user != null && role=="STUDENT") {
+      print(role);
+    if (user != null && role=="Student") {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Home()),
       );
     }
-    if (user != null && role=="ADMIN") {
+    if (user != null && role=="Admin") {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Home_admin()),
+        MaterialPageRoute(builder: (context) => const Home_admin()),
       );
     }
   }
 }
+String dropdownvalue_ecom = '___Select Evendor___';
+String dropdownvalue_class = '___Select Batch___';
+var Evendor =  ["___Select Evendor___","Amazon","Flipkart","Meesho","Mytra","Courier","Others"];
+var batch =  ["___Select Batch___","CSE","AIE","EEE","ELC","ECE","ME"];

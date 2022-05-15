@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mail_room/Delivered_package.dart';
+import 'package:mail_room/package_add.dart';
 import 'package:mail_room/var/var.dart';
 import '../Home_student.dart';
 import 'Login.dart';
@@ -28,6 +30,7 @@ class _Home_adminState extends State<Home_admin> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    rolls();
   }
 
   @override
@@ -46,16 +49,13 @@ class _Home_adminState extends State<Home_admin> {
         ),
         body: SingleChildScrollView(
             child: StreamBuilder<DocumentSnapshot>(
-                stream: usersdata
-                    .doc("amount")
-                    .collection(year)
-                    .doc(int.parse(date).toString())
+                stream: usersdata.doc(year)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: Text("Eroor"),
                     );
                   }
 
@@ -113,7 +113,7 @@ class _Home_adminState extends State<Home_admin> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              Home()),
+                                                              add_package()),
                                                     ),
                                                     child: Column(
                                                       mainAxisAlignment:
@@ -149,7 +149,7 @@ class _Home_adminState extends State<Home_admin> {
                                                         ),
                                                         RichText(
                                                             text: TextSpan(
-                                                                text: '0',
+                                                                text: '${data['Package'].toString()}',
                                                                 style: TextStyle(
                                                                   color:
                                                                   Colors.black,
@@ -204,7 +204,7 @@ class _Home_adminState extends State<Home_admin> {
                                                         RichText(
                                                             text: TextSpan(
                                                                 text:
-                                                                'Collected',
+                                                                'Delivered',
                                                                 style: TextStyle(
                                                                   color:
                                                                   Colors.black,
@@ -216,7 +216,7 @@ class _Home_adminState extends State<Home_admin> {
                                                         ),
                                                         RichText(
                                                             text: TextSpan(
-                                                                text: '0',
+                                                                text: '${data['Delivered'].toString()}',
                                                                 style: TextStyle(
                                                                   color:
                                                                   Colors.black,
@@ -258,7 +258,7 @@ class _Home_adminState extends State<Home_admin> {
                                                   onTap: () => Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => const Home()),
+                                                        builder: (context) => const add_package()),
                                                   ),
                                                   child: Column(
                                                     mainAxisAlignment:
@@ -285,7 +285,7 @@ class _Home_adminState extends State<Home_admin> {
                                                       Center(
                                                         child:RichText(
                                                           text: const TextSpan(
-                                                              text: 'INCOME',
+                                                              text: 'ADD PACKAGE',
                                                               style: TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 19,
@@ -319,7 +319,7 @@ class _Home_adminState extends State<Home_admin> {
                                                   onTap: () => Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => const Home()),
+                                                        builder: (context) => const delivered()),
                                                   ),
                                                   child: Column(
                                                     mainAxisAlignment:
@@ -346,7 +346,7 @@ class _Home_adminState extends State<Home_admin> {
                                                       Center(
                                                         child:RichText(
                                                           text: const TextSpan(
-                                                              text: 'EXPENSE',
+                                                              text: 'CHANGE STATUS',
                                                               style: TextStyle(
                                                                 color: Colors.black,
                                                                 fontSize: 19,

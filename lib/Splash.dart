@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mail_room/Home_student.dart';
 
+import 'Home_admin.dart';
 import 'Login.dart';
 
 class Splash extends StatefulWidget {
@@ -23,14 +25,30 @@ class _SplashState extends State<Splash> {
   _navigateToHome()async{
     await Future.delayed(const Duration(milliseconds: 5000));
     user =FirebaseAuth.instance.currentUser;
-    if (user != null){
-      //  goto MainPage(mainUser:_tempUser);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const Home(),
-        ),
+    if(user !=null)
+      {
+    late String role;
+    var collection = FirebaseFirestore.instance.collection('User');
+    var querySnapshot = await collection.get();
+    for (var queryDocumentSnapshot in querySnapshot.docs) {
+      var data = queryDocumentSnapshot.data();
+      if(data["uid"]==user?.uid) {
+        role = data['type'].toString();
+      }
+    }
+    print(role);
+    if (role=="Student") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
       );
-    }else {
+    }
+    else if (user != null && role=="Admin") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Home_admin()),
+      );
+    }}else {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Login()
       ));

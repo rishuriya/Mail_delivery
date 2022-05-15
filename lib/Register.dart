@@ -1,10 +1,11 @@
-
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mail_room/Login.dart';
 
+import 'Home_admin.dart';
 import 'Home_student.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,8 +22,8 @@ class _RegisterState extends State<Register> {
 
     //TODO update what details you want
     //test feild state
-    String dropdownvalue = '___Select Role___';
-    var items =  ["___Select Role___","Student","ADMIN"];
+    String mode="Admin";
+    var items =  ["___Select Role___","STUDENT","ADMIN"];
     String? email;
     String? password;
     String cllgname = "";
@@ -59,7 +60,7 @@ class _RegisterState extends State<Register> {
                     ])),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 60),
+            padding: EdgeInsets.only(bottom: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,17 +69,6 @@ class _RegisterState extends State<Register> {
                   'Welcome',
                   style: TextStyle(
                     fontSize: 27.0,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  //TODO update this
-                  'Join Mr BookWorm!',
-                  style: TextStyle(
-                    fontSize: 16.0,
                     color: Colors.white,
                   ),
                 ),
@@ -186,46 +176,45 @@ class _RegisterState extends State<Register> {
                 ),
                 Stack(
                   children: <Widget>[
-
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30, right: 30,),
-                      child: DropdownButtonFormField<String>(
-                        decoration: const InputDecoration(
-                          floatingLabelAlignment: ,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color:Colors.white,
-                            style: BorderStyle.solid),
-                              borderRadius: BorderRadius.all(Radius.circular(50.0))),
-                            border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color:Colors.white,
-                                    style: BorderStyle.solid),
-                                borderRadius: BorderRadius.all(Radius.circular(50.0))),
-                          fillColor: Colors.white
+                    Padding(padding: const EdgeInsets.only(left:16,right:16),
+                      child:CustomRadioButton(
+                        width: 170,
+                        unSelectedBorderColor: Colors.black,
+                        selectedBorderColor: Colors.white,
+                        buttonTextStyle: ButtonTextStyle(
+                          selectedColor: Colors.white,
+                          unSelectedColor: Colors.black,
+                          textStyle: TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                        value: dropdownvalue,
-                        hint: const Text("ROLE"),
-                        icon: Icon(Icons.keyboard_arrow_down,
-                        color: Colors.white,),
-
-                        items: items.map((String items) {
-                          return DropdownMenuItem(
-                              value: items,
-                              child: Text(items)
-                          );
-                        }
-                        ).toList(),
-                        onChanged: (newValue) {
-                          setState(() {
-                            dropdownvalue = newValue.toString();
-                          });
+                        autoWidth: false,
+                        enableButtonWrap: true,
+                        wrapAlignment: WrapAlignment.center,
+                        unSelectedColor: Colors.transparent,
+                        buttonLables: const [
+                          "ADMIN",
+                          "STUDENT",
+                        ],
+                        buttonValues: const [
+                          "Admin",
+                          "Student"
+                        ],
+                        radioButtonValue: (values) {
+                          mode=values.toString();
                         },
-
+                        defaultSelected: "Admin",
+                        horizontal: false,
+                        //width: 120,
+                        // hight: 50,
+                        selectedColor: Colors.transparent,
+                        padding: 2,
+                        enableShape: true,
                       ),
                     ),
-                  ],
-                ),
+
+                    ]
+                    ),
                 SizedBox(
                   height: 16,
                 ),
@@ -281,7 +270,8 @@ class _RegisterState extends State<Register> {
                 InkWell(
                   onTap :()  {
                     print(email);
-                    _signupUser(email, password,dropdownvalue,rollnumber);
+  print(mode);
+                    _signupUser(email, password,mode,rollnumber);
 
 
                   },
@@ -352,94 +342,110 @@ class _RegisterState extends State<Register> {
     String? email_id = emailid;
     String? password_id = passwordid;
 
-    try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email_id!, password: password_id!);
-      user = _auth.currentUser;
-    }
-    on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        final snackbar = SnackBar(
-          content: const Text('email-already-in-use'),
-          action: SnackBarAction(
-            label: 'OK',
-            onPressed: () {
-              ScaffoldMessenger.of(context)
-                  .hideCurrentSnackBar();
-            },
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      try {
+        await _auth.createUserWithEmailAndPassword(
+            email: email_id!, password: password_id!);
+        user = _auth.currentUser;
       }
-      if (e.code == 'invalid-email') {
-        final snackbar = SnackBar(
-          content: const Text('invalid-email'),
-          action: SnackBarAction(
-            label: 'OK',
-            onPressed: () {
-              ScaffoldMessenger.of(context)
-                  .hideCurrentSnackBar();
-            },
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          final snackbar = SnackBar(
+            content: const Text('email-already-in-use'),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+                ScaffoldMessenger.of(context)
+                    .hideCurrentSnackBar();
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+        if (e.code == 'invalid-email') {
+          final snackbar = SnackBar(
+            content: const Text('invalid-email'),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+                ScaffoldMessenger.of(context)
+                    .hideCurrentSnackBar();
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+        if (e.code == 'operation-not-allowed') {
+          final snackbar = SnackBar(
+            content: const Text('operation-not-allowed'),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+                ScaffoldMessenger.of(context)
+                    .hideCurrentSnackBar();
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+        if (e.code == 'weak-password') {
+          final snackbar = SnackBar(
+            content: const Text('weak-password'),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {
+                ScaffoldMessenger.of(context)
+                    .hideCurrentSnackBar();
+              },
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
       }
-      if (e.code == 'operation-not-allowed') {
-        final snackbar = SnackBar(
-          content: const Text('operation-not-allowed'),
-          action: SnackBarAction(
-            label: 'OK',
-            onPressed: () {
-              ScaffoldMessenger.of(context)
-                  .hideCurrentSnackBar();
-            },
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      }
-      if (e.code == 'weak-password') {
-        final snackbar = SnackBar(
-          content: const Text('weak-password'),
-          action: SnackBarAction(
-            label: 'OK',
-            onPressed: () {
-              ScaffoldMessenger.of(context)
-                  .hideCurrentSnackBar();
-            },
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      }
-
-    }
-    String date=DateTime.now().toString().substring(5, 7);
-    String year=DateTime.now().toString().substring(0, 4);
-    String? id=user?.uid;
-    if (user != null) {
-      DocumentReference ref= FirebaseFirestore.instance
-          .collection('User').doc(id);
-      ref.set({
-        'email': email_id,
-        'uid': id,
-        'PhoneNo':roll,
-        'type':dropdown,
-      });
-      for( var i = int.parse(date);  i <13; i++ ) {
-        print(i);
+      String date = DateTime.now().toString().substring(0, 9);
+      String year = DateTime.now().toString().substring(0, 4);
+      String? id = user?.uid;
+      if (user != null && dropdown == "Student" && roll != "") {
+        DocumentReference ref = FirebaseFirestore.instance
+            .collection('User').doc(id);
+        ref.set({
+          'email': email_id,
+          'uid': id,
+          'roll': roll,
+          'type': dropdown,
+        });
         DocumentReference ref1 = FirebaseFirestore.instance
             .collection('User').doc(user?.uid).collection("Package").doc(
-            "amount").collection(year).doc(i.toString());
+            year);
         ref1.set({
-          "in_bank": 0,
-          "in_hand": 0,
-          "income": 0,
-          "expenditure": 0
+          "Package": 0,
+          "Delivered": 0,
         });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
       }
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
-    }
+      if (user != null && dropdown == "Admin") {
+        DocumentReference ref = FirebaseFirestore.instance
+            .collection('User').doc(id);
+        ref.set({
+          'email': email_id,
+          'uid': id,
+          'type': dropdown,
+        });
+        DocumentReference ref1 = FirebaseFirestore.instance
+            .collection('User').doc(user?.uid).collection("Package").doc(
+            year);
+        ref1.set({
+          "Package": 0,
+          "Delivered": 0,
+        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home_admin()),
+        );
+      }
+
+
   }
-}
+  }
