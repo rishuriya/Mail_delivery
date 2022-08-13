@@ -18,6 +18,8 @@ class _add_packageState extends State<add_package> {
   final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   CollectionReference users = FirebaseFirestore.instance.collection("User").doc(user?.uid).collection("Package");
   String date=DateTime.now().toString().substring(0, 10);
+  String day=DateTime.now().toString().substring(8, 10);
+  String month=DateTime.now().toString().substring(5, 7);
   String year=DateTime.now().toString().substring(0, 4);
   late DateTime _selectedDate;
   String Name='' ;
@@ -193,8 +195,8 @@ class _add_packageState extends State<add_package> {
           //List data=users.doc("amount").collection(year).doc(date).get() as List;
 
           if(Name!='' && roll!="" && dropdownvalue_class!='___Select Batch___') {
-            String? id = _selectedDate.toString()+DateTime.now().toString();
-            users.doc("list").collection(dropdownvalue_class).doc(date+roll)
+            String? id = DateTime.now().toString()+roll;
+            users.doc("list").collection(dropdownvalue_class).doc(id)
             .set({
               'Day': id.substring(0, 10),
               'Batch': dropdownvalue_class,
@@ -202,21 +204,59 @@ class _add_packageState extends State<add_package> {
               'Roll': roll,
               'Evendor': dropdownvalue_ecom,
               'type': 'ARRIVED',
-              "id":date+roll,
+              "id":id,
             });
             late int? package_admin=0;
-            late int? Delivered_admin;
+            late int? Delivered_admin=0;
             var collection_admin = FirebaseFirestore.instance.collection('User').doc(user?.uid).collection("Package");
             var querySnapshot_admin = await collection_admin.get();
             for (var queryDocumentSnapshot in querySnapshot_admin.docs) {
               var data_admin = queryDocumentSnapshot.data();
-
-              package_admin = data_admin['Package']!;
-              Delivered_admin=data_admin["Delivered"];
+              if(data_admin["Year"] == year){
+          package_admin = data_admin['Package']!;
+          Delivered_admin=data_admin["Delivered"];
+          }
             }
             package_admin=package_admin!+1;
             users.doc(year)
                 .set({
+              "Year":year,
+              "Package": package_admin,
+              "Delivered": Delivered_admin,
+            });
+            package_admin=0;
+            Delivered_admin;
+            var querySnapshot_month_admin = await collection_admin.doc(year).collection("months").get();
+            for (var queryDocumentSnapshot in querySnapshot_month_admin.docs) {
+              var data_admin = queryDocumentSnapshot.data();
+              if(data_admin["Month"] == month){
+                package_admin = data_admin['Package']!;
+                Delivered_admin=data_admin["Delivered"];
+              }
+            }
+            package_admin=package_admin!+1;
+            print(package_admin);
+            users.doc(year).collection("months").doc(month)
+                .set({
+              "Month":month,
+              "Package": package_admin,
+              "Delivered": Delivered_admin,
+            });
+            package_admin=0;
+            Delivered_admin;
+            var querySnapshot_day_admin = await collection_admin.doc(year).collection("months").doc(month).collection("Days").get();
+            for (var queryDocumentSnapshot in querySnapshot_day_admin.docs) {
+              var data_admin = queryDocumentSnapshot.data();
+              if(data_admin["Date"] == day){
+                package_admin = data_admin['Package']!;
+                Delivered_admin=data_admin["Delivered"];
+              }
+            }
+            package_admin=package_admin!+1;
+            users.doc(year).collection("months").doc(month).collection("Days")
+                .doc(day)
+                .set({
+              "Date":day,
               "Package": package_admin,
               "Delivered": Delivered_admin,
             });
@@ -245,7 +285,7 @@ class _add_packageState extends State<add_package> {
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             }else{
               DocumentReference ref = FirebaseFirestore.instance
-                  .collection('User').doc(sid).collection('Package').doc(date+roll);
+                  .collection('User').doc(sid).collection('Package').doc(id);
               ref.set({
                 'Day': id.substring(0, 10),
                 'Batch': dropdownvalue_class,
@@ -253,7 +293,7 @@ class _add_packageState extends State<add_package> {
                 'Roll': roll,
                 'Evendor': dropdownvalue_ecom,
                 'type': 'ARRIVED',
-                "id":date+roll,
+                "id":id,
               });
               final Email send_email = Email(
                 body: 'The Mail department want to inform ${roll} that your parcel by Vendor ${dropdownvalue_ecom} is received at mail department, Kindly come and receive your parcel.',
@@ -265,14 +305,14 @@ class _add_packageState extends State<add_package> {
               await FlutterEmailSender.send(send_email);
               print(sid);
               late int? package_std=0;
-              late int? Delivered_std;
+              late int? Delivered_std=0;
               var collection_std = FirebaseFirestore.instance.collection('User').doc(sid).collection("Package");
               var querySnapshot_std = await collection_std.get();
               for (var queryDocumentSnapshot in querySnapshot_std.docs) {
                 var data_std = queryDocumentSnapshot.data();
-                if (data_std['Package'] != null && data_std["Delivered"] != null) {
+                if (data_std['Package'] != null && data_std["Delivered"] != null && data_std["Year"]==year) {
                   package_std = data_std['Package']!;
-                  Delivered_std=data_std['Package']!;
+                  Delivered_std=data_std['Delivered']!;
                 }
 
               }
@@ -280,6 +320,45 @@ class _add_packageState extends State<add_package> {
               FirebaseFirestore.instance
                   .collection('User').doc(sid).collection('Package').doc(year)
                   .set({
+                "Year":year,
+                "Package": package_std,
+                "Delivered": Delivered_std,
+              });
+              package_std=0;
+              Delivered_std=0;
+              querySnapshot_std = await collection_std.doc(year).collection("months").get();
+              for (var queryDocumentSnapshot in querySnapshot_std.docs) {
+                var data_std = queryDocumentSnapshot.data();
+                if (data_std['Package'] != null && data_std["Delivered"] != null && data_std["Month"]==month) {
+                  package_std = data_std['Package']!;
+                  Delivered_std=data_std['Delivered']!;
+                }
+
+              }
+              package_std=package_std!+1;
+              FirebaseFirestore.instance
+                  .collection('User').doc(sid).collection('Package').doc(year).collection("months").doc(month)
+                  .set({
+                "Month":month,
+                "Package": package_std,
+                "Delivered": Delivered_std,
+              });
+              package_std=0;
+              Delivered_std=0;
+              querySnapshot_std = await collection_std.doc(year).collection("months").doc(month).collection("Days").get();
+              for (var queryDocumentSnapshot in querySnapshot_std.docs) {
+                var data_std = queryDocumentSnapshot.data();
+                if (data_std['Package'] != null && data_std["Delivered"] != null && data_std["Date"]==day) {
+                  package_std = data_std['Package']!;
+                  Delivered_std=data_std['Delivered']!;
+                }
+
+              }
+              package_std=package_std!+1;
+              FirebaseFirestore.instance
+                  .collection('User').doc(sid).collection('Package').doc(year).collection("months").doc(month).collection("Days").doc(day)
+                  .set({
+                "Date":day,
                 "Package": package_std,
                 "Delivered": Delivered_std,
               });

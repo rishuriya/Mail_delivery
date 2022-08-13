@@ -40,7 +40,7 @@ class _SplashState extends State<Splash> {
     if (role=="Student") {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Home()),
+        MaterialPageRoute(builder: (context) => const Home()),
       );
     }
     else if (user != null && role=="Admin") {

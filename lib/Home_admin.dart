@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mail_room/Delivered_package.dart';
@@ -6,6 +8,8 @@ import 'package:mail_room/package_add.dart';
 import 'package:mail_room/var/var.dart';
 import '../Home_student.dart';
 import 'Login.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class Home_admin extends StatefulWidget {
   const Home_admin({Key? key}) : super(key: key);
@@ -36,16 +40,59 @@ class _Home_adminState extends State<Home_admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Color(0xf2C86733),
         appBar: AppBar(
-          centerTitle: false,
-          elevation: 0,
-          backgroundColor: Colors.deepPurple.shade200,
+          backgroundColor: Color(0xf2FFE5B4),
+          bottomOpacity: 1,
           title: const Text(
             'For You',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
           ),
+          elevation: 2.0,
+          toolbarHeight: 70,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+          ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+              child: MaterialButton(
+                onPressed: () {FirebaseAuth.instance.signOut();
+                user = FirebaseAuth.instance.currentUser;
+                runApp(MaterialApp(
+                  home: Login(),
+                  debugShowCheckedModeBanner: false,
+                ));},
+                minWidth: 30,
+                color:  Color(0x99C86733),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20)),
+                gradient: LinearGradient(
+                    colors: [Color(0xf2FFE5B4),Colors.white,],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter)),
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SingleChildScrollView(
             child: StreamBuilder<DocumentSnapshot>(
@@ -73,12 +120,12 @@ class _Home_adminState extends State<Home_admin> {
                         //stack overlaps widgets
                         Opacity(
                           //semi red clippath with more height and with 0.5 opacity
-                          opacity: 0.5,
+                          opacity: 1,
                           child: ClipPath(
                             clipper:
                             WaveClipper(), //set our custom wave clipper
                             child: Container(
-                              color: Colors.deepPurple.shade400,
+                              color: Color(0xffFFE5B4),
                               height: 350,
                             ),
                           ),
@@ -364,7 +411,7 @@ class _Home_adminState extends State<Home_admin> {
                                     ]))),
                         Padding(
                           padding: EdgeInsets.all(12),
-                          child: package(),
+                          child: Text("kme"),
                         ),
                       ])
                     ]);

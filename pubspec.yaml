@@ -42,6 +42,7 @@ dependencies:
   firebase_database: ^9.0.14
   calendar_timeline: ^1.0.4
   flutter_email_sender: ^5.1.0
+  syncfusion_flutter_charts: ^20.2.43
 
 dev_dependencies:
   flutter_test:

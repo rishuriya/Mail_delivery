@@ -24,6 +24,8 @@ class _edit_packageState extends State<edit_package> {
       ;
   String date = DateTime.now().toString().substring(0, 10);
   String year = DateTime.now().toString().substring(0, 4);
+  String day=DateTime.now().toString().substring(8, 10);
+  String month=DateTime.now().toString().substring(5, 7);
 
   late DateTime _selectedDate;
   String Name = '';
@@ -191,12 +193,50 @@ class _edit_packageState extends State<edit_package> {
             var querySnapshot_admin = await collection_admin.get();
             for (var queryDocumentSnapshot in querySnapshot_admin.docs) {
               var data_admin = queryDocumentSnapshot.data();
-              package_admin = data_admin["Package"];
-              Delivered_admin = data_admin['Delivered']!;
+              if(data_admin["Year"] == year) {
+                package_admin = data_admin["Package"];
+                Delivered_admin = data_admin['Delivered']!;
+              }
             }
             Delivered_admin = Delivered_admin! + 1;
             users.doc(year).set({
+              "Year":year,
               "Package": package_admin!,
+              "Delivered": Delivered_admin,
+            });
+            package_admin;
+            Delivered_admin=0;
+            var querySnapshot_month_admin = await collection_admin.doc(year).collection("months").get();
+            for (var queryDocumentSnapshot in querySnapshot_month_admin.docs) {
+              var data_admin = queryDocumentSnapshot.data();
+              if(data_admin["Month"] == month){
+                package_admin = data_admin['Package']!;
+                Delivered_admin=data_admin["Delivered"];
+              }
+            }
+            Delivered_admin = Delivered_admin! + 1;
+            users.doc(year).collection("months").doc(month)
+                .set({
+              "Month":month,
+              "Package": package_admin,
+              "Delivered": Delivered_admin,
+            });
+            package_admin;
+            Delivered_admin=0;
+            var querySnapshot_day_admin = await collection_admin.doc(year).collection("months").doc(month).collection("Days").get();
+            for (var queryDocumentSnapshot in querySnapshot_day_admin.docs) {
+              var data_admin = queryDocumentSnapshot.data();
+              if(data_admin["Date"] == day){
+                package_admin = data_admin['Package']!;
+                Delivered_admin=data_admin["Delivered"];
+              }
+            }
+            Delivered_admin = Delivered_admin! + 1;
+            users.doc(year).collection("months").doc(month).collection("Days")
+                .doc(day)
+                .set({
+              "Date":day,
+              "Package": package_admin,
               "Delivered": Delivered_admin,
             });
             late String sid;
@@ -261,7 +301,7 @@ class _edit_packageState extends State<edit_package> {
                 if (data_std['Package'] != null &&
                     data_std["Delivered"] != null) {
                   package_std = data_std['Package']!;
-                  Delivered_std = data_std['Package']!;
+                  Delivered_std = data_std['Delivered']!;
                 }
               }
               Delivered_std = Delivered_std! + 1;
@@ -271,6 +311,44 @@ class _edit_packageState extends State<edit_package> {
                   .collection('Package')
                   .doc(year)
                   .set({
+                "Package": package_std,
+                "Delivered": Delivered_std,
+              });
+              package_std=0;
+              Delivered_std=0;
+              querySnapshot_std = await collection_std.doc(year).collection("months").get();
+              for (var queryDocumentSnapshot in querySnapshot_std.docs) {
+                var data_std = queryDocumentSnapshot.data();
+                if (data_std['Package'] != null && data_std["Delivered"] != null && data_std["Month"]==month) {
+                  package_std = data_std['Package']!;
+                  Delivered_std=data_std['Delivered']!;
+                }
+
+              }
+              Delivered_std = Delivered_std! + 1;
+              FirebaseFirestore.instance
+                  .collection('User').doc(sid).collection('Package').doc(year).collection("months").doc(month)
+                  .set({
+                "Month":month,
+                "Package": package_std,
+                "Delivered": Delivered_std,
+              });
+              package_std=0;
+              Delivered_std=0;
+              querySnapshot_std = await collection_std.doc(year).collection("months").doc(month).collection("Days").get();
+              for (var queryDocumentSnapshot in querySnapshot_std.docs) {
+                var data_std = queryDocumentSnapshot.data();
+                if (data_std['Package'] != null && data_std["Delivered"] != null && data_std["Date"]==day) {
+                  package_std = data_std['Package']!;
+                  Delivered_std=data_std['Delivered']!;
+                }
+
+              }
+              Delivered_std = Delivered_std! + 1;
+              FirebaseFirestore.instance
+                  .collection('User').doc(sid).collection('Package').doc(year).collection("months").doc(month).collection("Days").doc(day)
+                  .set({
+                "Date":day,
                 "Package": package_std,
                 "Delivered": Delivered_std,
               });

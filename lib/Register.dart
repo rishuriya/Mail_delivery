@@ -18,8 +18,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-
-    String mode="Admin";
+    String mode = "Admin";
     String? email;
     String? password;
     String rollnumber = "";
@@ -102,7 +101,7 @@ class _RegisterState extends State<Register> {
                           ),
                           style: TextStyle(fontSize: 16,
                               color: Colors.white),
-                          onChanged: (value)=>email=value,
+                          onChanged: (value) => email = value,
                         )),
                   ],
                 ),
@@ -152,7 +151,7 @@ class _RegisterState extends State<Register> {
                           ),
                           style: TextStyle(fontSize: 16,
                               color: Colors.white),
-                          onChanged: (value)=>rollnumber=value,
+                          onChanged: (value) => rollnumber = value,
                         )),
                   ],
                 ),
@@ -161,46 +160,47 @@ class _RegisterState extends State<Register> {
                   height: 16,
                 ),
                 Stack(
-                  children: <Widget>[
-                    Padding(padding: const EdgeInsets.only(left:16,right:16),
-                      child:CustomRadioButton(
-                        width: 170,
-                        unSelectedBorderColor: Colors.black,
-                        selectedBorderColor: Colors.white,
-                        buttonTextStyle: ButtonTextStyle(
-                          selectedColor: Colors.white,
-                          unSelectedColor: Colors.black,
-                          textStyle: TextStyle(
-                            fontSize: 16,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: CustomRadioButton(
+                          width: 170,
+                          unSelectedBorderColor: Colors.black,
+                          selectedBorderColor: Colors.white,
+                          buttonTextStyle: ButtonTextStyle(
+                            selectedColor: Colors.white,
+                            unSelectedColor: Colors.black,
+                            textStyle: TextStyle(
+                              fontSize: 16,
+                            ),
                           ),
+                          autoWidth: false,
+                          enableButtonWrap: true,
+                          wrapAlignment: WrapAlignment.center,
+                          unSelectedColor: Colors.transparent,
+                          buttonLables: const [
+                            "ADMIN",
+                            "STUDENT",
+                          ],
+                          buttonValues: const [
+                            "Admin",
+                            "Student"
+                          ],
+                          radioButtonValue: (values) {
+                            mode = values.toString();
+                          },
+                          defaultSelected: "Admin",
+                          horizontal: false,
+                          //width: 120,
+                          // hight: 50,
+                          selectedColor: Colors.transparent,
+                          padding: 2,
+                          enableShape: true,
                         ),
-                        autoWidth: false,
-                        enableButtonWrap: true,
-                        wrapAlignment: WrapAlignment.center,
-                        unSelectedColor: Colors.transparent,
-                        buttonLables: const [
-                          "ADMIN",
-                          "STUDENT",
-                        ],
-                        buttonValues: const [
-                          "Admin",
-                          "Student"
-                        ],
-                        radioButtonValue: (values) {
-                          mode=values.toString();
-                        },
-                        defaultSelected: "Admin",
-                        horizontal: false,
-                        //width: 120,
-                        // hight: 50,
-                        selectedColor: Colors.transparent,
-                        padding: 2,
-                        enableShape: true,
                       ),
-                    ),
 
                     ]
-                    ),
+                ),
                 SizedBox(
                   height: 16,
                 ),
@@ -246,7 +246,7 @@ class _RegisterState extends State<Register> {
                           ),
                           style: TextStyle(fontSize: 16,
                               color: Colors.white),
-                          onChanged: (value)=>password=value,
+                          onChanged: (value) => password = value,
                         )),
                   ],
                 ),
@@ -254,14 +254,12 @@ class _RegisterState extends State<Register> {
                   height: 10,
                 ),
                 InkWell(
-                  onTap :()  {
+                  onTap: () {
                     print(email);
-  print(mode);
-                    _signupUser(email, password,mode,rollnumber);
-
-
+                    print(mode);
+                    _signupUser(email, password, mode, rollnumber);
                   },
-                  child:Container(
+                  child: Container(
                     height: 50,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -324,114 +322,118 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
-  Future<String?> _signupUser(emailid,passwordid,dropdown,roll ) async {
+
+  Future<String?> _signupUser(emailid, passwordid, dropdown, roll) async {
     String? email_id = emailid;
     String? password_id = passwordid;
 
-      try {
-        await _auth.createUserWithEmailAndPassword(
-            email: email_id!, password: password_id!);
-        user = _auth.currentUser;
-      }
-      on FirebaseAuthException catch (e) {
-        if (e.code == 'email-already-in-use') {
-          final snackbar = SnackBar(
-            content: const Text('email-already-in-use'),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .hideCurrentSnackBar();
-              },
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        }
-        if (e.code == 'invalid-email') {
-          final snackbar = SnackBar(
-            content: const Text('invalid-email'),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .hideCurrentSnackBar();
-              },
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        }
-        if (e.code == 'operation-not-allowed') {
-          final snackbar = SnackBar(
-            content: const Text('operation-not-allowed'),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .hideCurrentSnackBar();
-              },
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        }
-        if (e.code == 'weak-password') {
-          final snackbar = SnackBar(
-            content: const Text('weak-password'),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {
-                ScaffoldMessenger.of(context)
-                    .hideCurrentSnackBar();
-              },
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-        }
-      }
-      String date = DateTime.now().toString().substring(0, 9);
-      String year = DateTime.now().toString().substring(0, 4);
-      String? id = user?.uid;
-      if (user != null && dropdown == "Student" && roll != "") {
-        DocumentReference ref = FirebaseFirestore.instance
-            .collection('User').doc(id);
-        ref.set({
-          'email': email_id,
-          'uid': id,
-          'roll': roll,
-          'type': dropdown,
-        });
-        DocumentReference ref1 = FirebaseFirestore.instance
-            .collection('User').doc(user?.uid).collection("Package").doc(
-            year);
-        ref1.set({
-          "Package": 0,
-          "Delivered": 0,
-        });
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
+    try {
+      await _auth.createUserWithEmailAndPassword(
+          email: email_id!, password: password_id!);
+      user = _auth.currentUser;
+    }
+    on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        final snackbar = SnackBar(
+          content: const Text('email-already-in-use'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context)
+                  .hideCurrentSnackBar();
+            },
+          ),
         );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
       }
-      if (user != null && dropdown == "Admin") {
-        DocumentReference ref = FirebaseFirestore.instance
-            .collection('User').doc(id);
-        ref.set({
-          'email': email_id,
-          'uid': id,
-          'type': dropdown,
-        });
-        DocumentReference ref1 = FirebaseFirestore.instance
-            .collection('User').doc(user?.uid).collection("Package").doc(
-            year);
-        ref1.set({
-          "Package": 0,
-          "Delivered": 0,
-        });
+      if (e.code == 'invalid-email') {
+        final snackbar = SnackBar(
+          content: const Text('invalid-email'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context)
+                  .hideCurrentSnackBar();
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+      if (e.code == 'operation-not-allowed') {
+        final snackbar = SnackBar(
+          content: const Text('operation-not-allowed'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context)
+                  .hideCurrentSnackBar();
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+      if (e.code == 'weak-password') {
+        final snackbar = SnackBar(
+          content: const Text('weak-password'),
+          action: SnackBarAction(
+            label: 'OK',
+            onPressed: () {
+              ScaffoldMessenger.of(context)
+                  .hideCurrentSnackBar();
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      }
+    }
+    String date = DateTime.now().toString().substring(0, 9);
+    String year = DateTime.now().toString().substring(0, 4);
+    String? id = user?.uid;
+    if (user != null && dropdown == "Student" && roll != "") {
+      DocumentReference ref = FirebaseFirestore.instance
+          .collection('User').doc(id);
+      ref.set({
+        'email': email_id,
+        'uid': id,
+        'roll': roll,
+        'type': dropdown,
+      });
+      DocumentReference ref1 = FirebaseFirestore.instance
+          .collection('User').doc(user?.uid).collection("Package").doc(
+          year);
+      ref1.set({
+        "Year":year,
+        "Package": 0,
+        "Delivered": 0,
+      });
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    }
+    if (user != null && dropdown == "Admin") {
+      DocumentReference ref = FirebaseFirestore.instance
+          .collection('User').doc(id);
+      ref.set({
+        'email': email_id,
+        'uid': id,
+        'type': dropdown,
+      });
+      DocumentReference ref1 = FirebaseFirestore.instance
+          .collection('User').doc(user?.uid).collection("Package").doc(
+          year);
+      ref1.set({
+        "Year":year,
+        "Package": 0,
+        "Delivered": 0,
+      });
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Home_admin()),
         );
-      }
 
-
+    }
   }
-  }
+}

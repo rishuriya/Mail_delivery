@@ -25,6 +25,7 @@ class Package extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
+          parcel.clear();
           did=id!;
           p_batch=batch!;
           Navigator.push(

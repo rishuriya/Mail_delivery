@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../Edit_detail.dart';
 import '../Login.dart';
 import '../model.dart';
 List roll_no=[];
@@ -90,7 +93,7 @@ Package_list(String batch) {
             }
           }
             int i = parcel.length;
-          print(token);
+          print(parcel);
           }else if(snapshot.data==null){
             print("hgcghfghj");
           }
