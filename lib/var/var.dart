@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../Edit_detail.dart';
 import '../Login.dart';
@@ -8,6 +9,12 @@ import '../model.dart';
 List roll_no=[];
 String did="";
 String p_batch="";
+List<FlSpot> chart1=[];
+List<FlSpot> chart2=[];
+String day=DateTime.now().toString().substring(8, 10);
+int maxy1_1=0;
+int maxy1_2=0;
+int maxy1=0;
 rolls() async {
   late String role;
   var collection = FirebaseFirestore.instance.collection('User');
@@ -19,6 +26,7 @@ rolls() async {
       roll_no.insert(i, role);
       i=i+1;
   }
+
   print(roll_no);
 }
 List<Package> token = [Package("","","","","","","")];

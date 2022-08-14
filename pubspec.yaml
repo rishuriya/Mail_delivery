@@ -43,6 +43,7 @@ dependencies:
   calendar_timeline: ^1.0.4
   flutter_email_sender: ^5.1.0
   syncfusion_flutter_charts: ^20.2.43
+  fl_chart: ^0.55.1
 
 dev_dependencies:
   flutter_test:

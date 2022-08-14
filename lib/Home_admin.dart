@@ -8,7 +8,7 @@ import 'package:mail_room/package_add.dart';
 import 'package:mail_room/var/var.dart';
 import '../Home_student.dart';
 import 'Login.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'charts/chart.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class Home_admin extends StatefulWidget {
@@ -27,13 +27,14 @@ class _Home_adminState extends State<Home_admin> {
   String year = DateTime.now().toString().substring(0, 4);
   final String? kYellowColor = "lol";
   final String? pColor = "nothing";
-
+  late bool isShowingMainData;
   // Fetch content from the json file
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    isShowingMainData = true;
     rolls();
   }
 
@@ -410,9 +411,9 @@ class _Home_adminState extends State<Home_admin> {
                                       ),
                                     ]))),
                         Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Text("kme"),
-                        ),
+                          padding: const EdgeInsets.all(12),
+                          child:LineChartSample1(),
+                            ),
                       ])
                     ]);
                   }

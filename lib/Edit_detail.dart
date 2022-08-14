@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:mail_room/var/var.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -352,6 +353,28 @@ class _edit_packageState extends State<edit_package> {
                 "Package": package_std,
                 "Delivered": Delivered_std,
               });
+            }
+            chart2.clear();
+            int i=int.parse(day)-6;
+            var collection_chart = FirebaseFirestore.instance.collection('User').doc(user?.uid).collection("Package").doc(year).collection("months").doc(month).collection("Days");
+            var querySnapshot_chart = await collection_chart.get();
+            for (var queryDocumentSnapshot in querySnapshot_chart.docs) {
+              var data_admin = queryDocumentSnapshot.data();
+              int j=int.parse(data_admin['Date']);
+              if(i == j) {
+                chart2.add(
+                    FlSpot(i.toDouble(), data_admin['Delivered'].toDouble()));
+                i++;
+              }
+              if(data_admin['Delivered']>=maxy1_2){
+                maxy1=data_admin['Delivered'];
+              }
+            }
+            if(maxy1_1>maxy1_2){
+              maxy1=maxy1_1;
+            }
+            else{
+              maxy1=maxy1_2;
             }
             final snackbar = SnackBar(
               content: const Text('Transaction Stored!'),

@@ -1,9 +1,11 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:mail_room/var/var.dart';
 
 
 import 'Login.dart';
@@ -190,8 +192,6 @@ class _add_packageState extends State<add_package> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.deepPurpleAccent,
         onPressed: () async {
-
-
           //List data=users.doc("amount").collection(year).doc(date).get() as List;
 
           if(Name!='' && roll!="" && dropdownvalue_class!='___Select Batch___') {
@@ -260,7 +260,7 @@ class _add_packageState extends State<add_package> {
               "Package": package_admin,
               "Delivered": Delivered_admin,
             });
-            late String sid;
+            late String sid="/0";
             late String email;
             var collection = FirebaseFirestore.instance.collection('User');
             var querySnapshot = await collection.get();
@@ -271,7 +271,7 @@ class _add_packageState extends State<add_package> {
                 email=data['email'];
               }
             }
-            if(sid==null){
+            if(sid=="/0"){
               final snackbar = SnackBar(
                 content: const Text('Invalid Roll number'),
                 action: SnackBarAction(
@@ -363,6 +363,30 @@ class _add_packageState extends State<add_package> {
                 "Delivered": Delivered_std,
               });
             }
+            chart1.clear();
+            int i=int.parse(day)-6;
+            var collection_chart = FirebaseFirestore.instance.collection('User').doc(user?.uid).collection("Package").doc(year).collection("months").doc(month).collection("Days");
+            var querySnapshot_chart = await collection_chart.get();
+            for (var queryDocumentSnapshot in querySnapshot_chart.docs) {
+              var data_admin = queryDocumentSnapshot.data();
+              int j=int.parse(data_admin['Date']);
+              if(i == j) {
+                chart1.add(
+                    FlSpot(i.toDouble(), data_admin['Package'].toDouble()));
+                i++;
+                print("hello");
+              }
+              if(data_admin['Package']>=maxy1_1){
+                maxy1_1=data_admin['Package'];
+              }
+            }
+            if(maxy1_1>maxy1_2){
+              maxy1=maxy1_1;
+            }
+            else{
+              maxy1=maxy1_2;
+            }
+            print(chart1);
             final snackbar = SnackBar(
               content: const Text('Transaction Stored!'),
               action: SnackBarAction(
