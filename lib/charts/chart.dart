@@ -273,8 +273,8 @@ class LineChartSample1State extends State<LineChartSample1> {
           borderRadius: BorderRadius.all(Radius.circular(18)),
           gradient: LinearGradient(
             colors: [
-              Color(0xffeeeeee),
-              Color(0xffeeeeee),
+              Colors.transparent,
+              Colors.transparent,
             ],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -289,7 +289,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                   height: 37,
                 ),
                 const Text(
-                  'Unfold Shop 2018',
+                  'Amrita Mail Room',
                   style: TextStyle(
                     color: Color(0xff827daa),
                     fontSize: 16,
@@ -300,7 +300,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                   height: 4,
                 ),
                 const Text(
-                  'Monthly Sales',
+                  'Daily Collection',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 32,
