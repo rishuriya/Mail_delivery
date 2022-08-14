@@ -363,30 +363,7 @@ class _add_packageState extends State<add_package> {
                 "Delivered": Delivered_std,
               });
             }
-            chart1.clear();
-            int i=int.parse(day)-6;
-            var collection_chart = FirebaseFirestore.instance.collection('User').doc(user?.uid).collection("Package").doc(year).collection("months").doc(month).collection("Days");
-            var querySnapshot_chart = await collection_chart.get();
-            for (var queryDocumentSnapshot in querySnapshot_chart.docs) {
-              var data_admin = queryDocumentSnapshot.data();
-              int j=int.parse(data_admin['Date']);
-              if(i == j) {
-                chart1.add(
-                    FlSpot(i.toDouble(), data_admin['Package'].toDouble()));
-                i++;
-                print("hello");
-              }
-              if(data_admin['Package']>=maxy1_1){
-                maxy1_1=data_admin['Package'];
-              }
-            }
-            if(maxy1_1>maxy1_2){
-              maxy1=maxy1_1;
-            }
-            else{
-              maxy1=maxy1_2;
-            }
-            print(chart1);
+            Chart_pack();
             final snackbar = SnackBar(
               content: const Text('Transaction Stored!'),
               action: SnackBarAction(

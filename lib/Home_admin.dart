@@ -9,8 +9,11 @@ import 'package:mail_room/var/var.dart';
 import '../Home_student.dart';
 import 'Login.dart';
 import 'charts/chart.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:sidebarx/sidebarx.dart';
 
+import 'drawer/sidebar.dart';
+final _controller = SidebarXController(selectedIndex: 0, extended: true);
+final _key = GlobalKey<ScaffoldState>();
 class Home_admin extends StatefulWidget {
   const Home_admin({Key? key}) : super(key: key);
 
@@ -34,19 +37,21 @@ class _Home_adminState extends State<Home_admin> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    isShowingMainData = true;
     rolls();
+    Chart_pack();
+    Chart_deli();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _key,
         backgroundColor: Color(0xf2C86733),
         appBar: AppBar(
           backgroundColor: Color(0xf2FFE5B4),
           bottomOpacity: 1,
           title: const Text(
-            'For You',
+            'Mail Department',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
           ),
@@ -54,7 +59,8 @@ class _Home_adminState extends State<Home_admin> {
           toolbarHeight: 70,
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              _controller.setExtended(true);
+              _key.currentState?.openDrawer();
             },
             icon: const Icon(
               Icons.menu,
@@ -95,6 +101,7 @@ class _Home_adminState extends State<Home_admin> {
           ),
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
+        drawer: ExampleSidebarX(controller: _controller),
         body: SingleChildScrollView(
             child: StreamBuilder<DocumentSnapshot>(
                 stream: usersdata.doc(year)
@@ -137,7 +144,7 @@ class _Home_adminState extends State<Home_admin> {
 
                             child:Padding(
                                 child:LineChartSample1(),
-                            padding: EdgeInsets.only(top:30,bottom: 24,left:24,right: 24),) ),
+                            padding: EdgeInsets.only(top:24,bottom: 24,left:24,right: 24),) ),
                       ]),
                       Column(children: [
                         Padding(
@@ -286,135 +293,10 @@ class _Home_adminState extends State<Home_admin> {
                                                   ) ))
                                         ],
                                       ),
-                                    )) )),
-                        Padding(
-                          padding: const EdgeInsets.all(12),
-                          child:Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: SizedBox(
-                                      width: 170.0,
-                                      height: 175.0,
-                                      child: Card(
-                                        elevation: 2,
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(20),
-
-                                          child: InkWell(
-                                            onTap: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => const add_package()),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                RichText(
-                                                    text: const TextSpan(
-                                                      children: [
-                                                        WidgetSpan(
-                                                          child: Center(
-                                                              child:FaIcon(
-                                                                FontAwesomeIcons.plus,
-                                                                color: Colors.deepPurpleAccent,
-                                                                size: 30,
-                                                              )),),
-                                                      ],
-                                                    )),
-                                                const Divider(
-                                                  thickness: 1,
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Center(
-                                                  child:RichText(
-                                                    text: const TextSpan(
-                                                        text: 'ADD PACKAGE',
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 19,
-                                                        )),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ), //Center
-                                        ),
-                                      ) //Card
-                                  ),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: SizedBox(
-                                      width: 170.0,
-                                      height: 175.0,
-                                      child: Card(
-                                        elevation: 2,
-                                        color: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),
-                                        child: Padding(
-                                          padding: EdgeInsets.all(20),
-
-                                          child: InkWell(
-                                            onTap: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => const delivered()),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                RichText(
-                                                    text: const TextSpan(
-                                                      children: [
-                                                        WidgetSpan(
-                                                          child: Center(
-                                                              child:FaIcon(
-                                                                FontAwesomeIcons.minus,
-                                                                color: Colors.deepPurpleAccent,
-                                                                size: 30,
-                                                              )),),
-                                                      ],
-                                                    )),
-                                                const Divider(
-                                                  thickness: 1,
-                                                ),
-                                                SizedBox(height: 10),
-                                                Center(
-                                                  child:RichText(
-                                                    text: const TextSpan(
-                                                        text: 'CHANGE STATUS',
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 19,
-                                                        )),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ), //Center
-                                        ),
-                                      ) //Card
-                                  ),
-                                ),
-                              ]),
-                            ),
+                                    )
+                                )
+                            )
+                        ),
                       ])
                     ]);
                   }

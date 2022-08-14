@@ -12,6 +12,8 @@ String p_batch="";
 List<FlSpot> chart1=[];
 List<FlSpot> chart2=[];
 String day=DateTime.now().toString().substring(8, 10);
+String year=DateTime.now().toString().substring(0, 4);
+String month=DateTime.now().toString().substring(5, 7);
 int maxy1_1=0;
 int maxy1_2=0;
 int maxy1=0;
@@ -144,4 +146,53 @@ Package_list(String batch) {
               )
           );
         });
+  }
+
+  Chart_pack() async{
+    chart1.clear();
+    int i=int.parse(day)-6;
+    var collection_chart = FirebaseFirestore.instance.collection('User').doc(user?.uid).collection("Package").doc(year).collection("months").doc(month).collection("Days");
+    var querySnapshot_chart = await collection_chart.get();
+    for (var queryDocumentSnapshot in querySnapshot_chart.docs) {
+      var data_admin = queryDocumentSnapshot.data();
+      int j=int.parse(data_admin['Date']);
+      if(i == j) {
+        chart1.add(
+            FlSpot(i.toDouble(), data_admin['Package'].toDouble()));
+        i++;
+      }
+      if(data_admin['Package']>=maxy1_1){
+        maxy1_1=data_admin['Package'];
+      }
+    }
+    if(maxy1_1>maxy1_2){
+      maxy1=maxy1_1;
+    }
+    else{
+      maxy1=maxy1_2;
+    }
+  }
+  Chart_deli() async{
+    chart2.clear();
+    int i=int.parse(day)-6;
+    var collection_chart = FirebaseFirestore.instance.collection('User').doc(user?.uid).collection("Package").doc(year).collection("months").doc(month).collection("Days");
+    var querySnapshot_chart = await collection_chart.get();
+    for (var queryDocumentSnapshot in querySnapshot_chart.docs) {
+      var data_admin = queryDocumentSnapshot.data();
+      int j=int.parse(data_admin['Date']);
+      if(i == j) {
+        chart2.add(
+            FlSpot(i.toDouble(), data_admin['Delivered'].toDouble()));
+        i++;
+      }
+      if(data_admin['Delivered']>=maxy1_2){
+        maxy1=data_admin['Delivered'];
+      }
+    }
+    if(maxy1_1>maxy1_2){
+      maxy1=maxy1_1;
+    }
+    else{
+      maxy1=maxy1_2;
+    }
   }

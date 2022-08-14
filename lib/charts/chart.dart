@@ -104,8 +104,6 @@ class _LineChart extends StatelessWidget {
 
     if(value.toInt()==maxy1~/6){
       text = (maxy1~/6).toString();
-    }else if(value.toInt()==maxy1~/5){
-      text = (maxy1~/5).toString();
     }
     else if(value.toInt()==maxy1~/4){
       text = (maxy1~/4).toString();
@@ -270,11 +268,18 @@ class LineChartSample1State extends State<LineChartSample1> {
       aspectRatio: 1.23,
       child: Container(
         decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xf2C86733),
+              offset: Offset(0.0, 0.0), //(x,y)
+              blurRadius: 10.0,
+            ),
+          ],
           borderRadius: BorderRadius.all(Radius.circular(18)),
           gradient: LinearGradient(
             colors: [
-              Colors.transparent,
-              Colors.transparent,
+              Color(0xffFFE5B4),
+              Color(0xffFFE5B4),
             ],
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
@@ -286,7 +291,7 @@ class LineChartSample1State extends State<LineChartSample1> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const SizedBox(
-                  height: 37,
+                  height: 20,
                 ),
                 const Text(
                   'Amrita Mail Room',
@@ -309,8 +314,21 @@ class LineChartSample1State extends State<LineChartSample1> {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:const [CircleAvatar(
+                  backgroundColor:Color(0xff4af699) ,
+                  radius: 5,
+                ),SizedBox(width: 4,),
+                  Text("Total Package"),
+                    SizedBox(width: 20,),
+                    CircleAvatar(
+                      backgroundColor:Color(0xffaa4cfc) ,
+                      radius: 5,
+                    ),SizedBox(width: 4,),
+                    Text("Package Delivered")]),
                 const SizedBox(
-                  height: 37,
+                  height: 25,
                 ),
                 Expanded(
                   child: Padding(

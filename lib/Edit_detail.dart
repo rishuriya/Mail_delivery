@@ -186,7 +186,7 @@ class _edit_packageState extends State<edit_package> {
               "id": digiid,
             });
             late int? Delivered_admin = 0;
-            late int? package_admin;
+            late int? package_admin=0;
             var collection_admin = FirebaseFirestore.instance
                 .collection('User')
                 .doc(user?.uid)
@@ -205,7 +205,7 @@ class _edit_packageState extends State<edit_package> {
               "Package": package_admin!,
               "Delivered": Delivered_admin,
             });
-            package_admin;
+            package_admin=0;
             Delivered_admin=0;
             var querySnapshot_month_admin = await collection_admin.doc(year).collection("months").get();
             for (var queryDocumentSnapshot in querySnapshot_month_admin.docs) {
@@ -222,7 +222,7 @@ class _edit_packageState extends State<edit_package> {
               "Package": package_admin,
               "Delivered": Delivered_admin,
             });
-            package_admin;
+            package_admin=0;
             Delivered_admin=0;
             var querySnapshot_day_admin = await collection_admin.doc(year).collection("months").doc(month).collection("Days").get();
             for (var queryDocumentSnapshot in querySnapshot_day_admin.docs) {
@@ -354,28 +354,7 @@ class _edit_packageState extends State<edit_package> {
                 "Delivered": Delivered_std,
               });
             }
-            chart2.clear();
-            int i=int.parse(day)-6;
-            var collection_chart = FirebaseFirestore.instance.collection('User').doc(user?.uid).collection("Package").doc(year).collection("months").doc(month).collection("Days");
-            var querySnapshot_chart = await collection_chart.get();
-            for (var queryDocumentSnapshot in querySnapshot_chart.docs) {
-              var data_admin = queryDocumentSnapshot.data();
-              int j=int.parse(data_admin['Date']);
-              if(i == j) {
-                chart2.add(
-                    FlSpot(i.toDouble(), data_admin['Delivered'].toDouble()));
-                i++;
-              }
-              if(data_admin['Delivered']>=maxy1_2){
-                maxy1=data_admin['Delivered'];
-              }
-            }
-            if(maxy1_1>maxy1_2){
-              maxy1=maxy1_1;
-            }
-            else{
-              maxy1=maxy1_2;
-            }
+            Chart_deli();
             final snackbar = SnackBar(
               content: const Text('Transaction Stored!'),
               action: SnackBarAction(
