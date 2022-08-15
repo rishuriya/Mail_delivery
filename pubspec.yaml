@@ -46,6 +46,7 @@ dependencies:
   fl_chart: ^0.55.1
   shared_preferences: ^2.0.15
   sidebarx: ^0.10.0
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

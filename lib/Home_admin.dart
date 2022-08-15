@@ -12,8 +12,8 @@ import 'charts/chart.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 import 'drawer/sidebar.dart';
-final _controller = SidebarXController(selectedIndex: 0, extended: true);
-final _key = GlobalKey<ScaffoldState>();
+
+
 class Home_admin extends StatefulWidget {
   const Home_admin({Key? key}) : super(key: key);
 
@@ -22,6 +22,8 @@ class Home_admin extends StatefulWidget {
 }
 
 class _Home_adminState extends State<Home_admin> {
+  final _controller = SidebarXController(selectedIndex: 0, extended: true);
+  final _key = GlobalKey<ScaffoldState>();
   CollectionReference usersdata = FirebaseFirestore.instance
       .collection("User")
       .doc(user?.uid)

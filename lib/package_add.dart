@@ -1,14 +1,17 @@
-import 'package:calendar_timeline/calendar_timeline.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:mail_room/var/var.dart';
-
-
+import 'package:sidebarx/sidebarx.dart';
+import 'Home_admin.dart';
+import 'package:flutter/services.dart';
 import 'Login.dart';
+import 'charts/check.dart';
+import 'drawer/sidebar.dart';
+
 class add_package extends StatefulWidget {
   const add_package({Key? key}) : super(key: key);
 
@@ -17,6 +20,8 @@ class add_package extends StatefulWidget {
 }
 
 class _add_packageState extends State<add_package> {
+  final _controller = SidebarXController(selectedIndex: 3, extended: true);
+  final _key = GlobalKey<ScaffoldState>();
   final DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   CollectionReference users = FirebaseFirestore.instance.collection("User").doc(user?.uid).collection("Package");
   String date=DateTime.now().toString().substring(0, 10);
@@ -49,65 +54,180 @@ class _add_packageState extends State<add_package> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade50,
-      extendBody: true,
+      key: _key,
+      backgroundColor: Color(0xffC86733),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
+        backgroundColor: Color(0xf2C86733),
+        bottomOpacity: 0,
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const Text(
-          'ADD PACKAGE',
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.normal, fontSize: 25),
+        toolbarHeight: 70,
+        leading: IconButton(
+          onPressed: () {
+            _controller.setExtended(true);
+            _key.currentState?.openDrawer();
+          },
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
         ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20)),
+              gradient: LinearGradient(
+                  colors: [Color(0xf2C86733),Color(0xf2FFE5B4)],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter)),
+        ),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
+      drawer: ExampleSidebarX(controller: _controller),
       body: SingleChildScrollView(
-        child:  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: SizedBox(
-                          width: 400.0,
-                          height: 200.0,
-                          child: Card(
-                              elevation: 2,
-                              shadowColor: Colors.black,
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+        child:  Stack(
+                  children: <Widget>[SizedBox(
+                      height: 210,
+                      child: Stack(
+                          children: [
+                            Positioned(
+                                bottom: 10,
+                                left: 0,
+                                right: -2,
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height * 0.1,
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/images/curve.png'),
+                                        fit: BoxFit.cover,
+                                      )),
+                                )),
+                            Positioned(
+                              bottom: 8,
+                              right: 50,
                               child: InkWell(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: CalendarTimeline(
-                                    showYears: true,
-                                    initialDate: _selectedDate,
-                                    firstDate:
-                                    DateTime.now().subtract(Duration(days: 7)),
-                                    lastDate: DateTime.now().add(Duration(days: 1095)),
-                                    onDateSelected: (date) {
-                                      setState(() {
-                                        _selectedDate = date!;
+                                onTap: () {
+                                  showModalBottomSheet<dynamic>(
+                                      backgroundColor: Colors.transparent,
+                                      barrierColor: Colors.transparent,
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return SizedBox(
+                                          height: MediaQuery.of(context).size.height - 240,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Stack(
+                                            children: [
+                                              Positioned(
+                                                bottom: 0,
+                                                child: Container(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  height: MediaQuery.of(context).size.height - 200,
+                                                  color: const Color(0xffeef1f4).withOpacity(0.7),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 4,
+                                                right: 50,
+                                                child: Container(
+                                                  width: 60,
+                                                  height: 250,
+                                                  padding: const EdgeInsets.only(top: 5, bottom: 25),
+                                                  decoration: BoxDecoration(
+                                                    color: ColorPalette.mainColor,
+                                                    borderRadius: BorderRadius.circular(29),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      AppButton(
+                                                          backgroundColor: Colors.white,
+                                                          iconColor: ColorPalette.mainColor,
+                                                          textColor: Colors.white,
+                                                          iconData: Icons.cancel,
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                          }),
+                                                      AppButton(
+                                                          text: 'Add bill',
+                                                          backgroundColor: Colors.white,
+                                                          iconColor: ColorPalette.mainColor,
+                                                          textColor: Colors.white,
+                                                          iconData: Icons.add_circle,
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                          }),
+                                                      AppButton(
+                                                          text: 'History',
+                                                          backgroundColor: Colors.white,
+                                                          iconColor: ColorPalette.mainColor,
+                                                          textColor: Colors.white,
+                                                          iconData: Icons.history_rounded,
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                          })
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
                                       });
-                                    },
-                                    leftMargin: 0,
-                                    monthColor: Colors.black87,
-                                    dayColor: Colors.black,
-                                    dayNameColor: Colors.white,
-                                    activeDayColor: Colors.white,
-                                    activeBackgroundDayColor: Colors.deepPurpleAccent,
-                                    dotsColor: Colors.white,
-                                    selectableDayPredicate: (date) => date.day != 23,
-                                    locale: 'en',
+                                },
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      image:
+                                      const DecorationImage(image: AssetImage('assets/images/lines.png')),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 9,
+                                          offset: const Offset(0, 1),
+                                          color: const Color(0xff11324d).withOpacity(0.2),
+                                        )
+                                      ]),
+                                ),
+                              ),
+                            ),
+                            Stack(
+                              children: const [
+                                Positioned(
+                                  left: 55,
+                                  top: 10,
+                                  child: Text(
+                                    'Add Package',
+                                    style: TextStyle(
+                                        fontSize: 30, fontWeight: FontWeight.w700, color: Colors.white),
                                   ),
                                 ),
-                              ))),
-                    ),
-                    SizedBox(height: 15),
+                                Positioned(
+                                  left: 5,
+                                  top: 30,
+                                  child: Text(
+                                    'Add Package',
+                                    style: TextStyle(
+                                      fontSize: 50,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xff293952),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )]
+                      )
+                  ),Column(children:[
+                    const SizedBox(height: 200),
+                   Container(
+                     height: MediaQuery.of(context).size.height - 260,
+                      decoration: const BoxDecoration(
+                        color: Color(0xf2FFE5B4),
+                          ),
+                        child: Column(
+                          children:[
                     Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16,),
+                      padding: const EdgeInsets.only(left: 16, right: 16,top: 16),
                       child: DropdownButtonFormField<String>(
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
@@ -185,12 +305,13 @@ class _add_packageState extends State<add_package> {
                         onChanged: (value) => roll = value,
                       ),
                     ),
+                    ]))]),
                   ],
                 ),
       ),
 
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Color(0xffC86733),
         onPressed: () async {
           //List data=users.doc("amount").collection(year).doc(date).get() as List;
 
