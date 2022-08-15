@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mail_room/Delivered_package.dart';
+import 'package:mail_room/Edit_detail.dart';
 import 'package:mail_room/package_add.dart';
 import 'package:mail_room/var/var.dart';
 import '../Home_student.dart';
@@ -245,7 +246,7 @@ class _Home_adminState extends State<Home_admin> {
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) =>
-                                                                  Home()),
+                                                                  const delivered()),
                                                         ),
                                                         child: Column(
                                                           mainAxisAlignment:
@@ -267,7 +268,7 @@ class _Home_adminState extends State<Home_admin> {
                                                                 )),
                                                             SizedBox(height: 25),
                                                             RichText(
-                                                                text: TextSpan(
+                                                                text: const TextSpan(
                                                                     text:
                                                                     'Delivered',
                                                                     style: TextStyle(
@@ -282,7 +283,7 @@ class _Home_adminState extends State<Home_admin> {
                                                             RichText(
                                                                 text: TextSpan(
                                                                     text: '${data['Delivered'].toString()}',
-                                                                    style: TextStyle(
+                                                                    style: const TextStyle(
                                                                       color:
                                                                       Colors.black,
                                                                       fontSize: 30,

@@ -36,7 +36,7 @@ class Package extends StatelessWidget {
         },
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: Colors.deepPurpleAccent.shade100.withOpacity(0.4),
+            color: Color(0xf2C86733).withOpacity(0.4),
             borderRadius: BorderRadius.circular(10),
           ),
           child: FutureBuilder(

@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:mail_room/Delivered_package.dart';
 import 'package:mail_room/Edit_detail.dart';
 import 'package:mail_room/Home_admin.dart';
+import 'package:mail_room/Home_student.dart';
 import 'package:mail_room/charts/check.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -96,7 +98,7 @@ class ExampleSidebarX extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const MyHomePage()),
+                builder: (context) => const Home()),
           ),
         ),
         SidebarXItem(
@@ -113,7 +115,7 @@ class ExampleSidebarX extends StatelessWidget {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const edit_package()),
+                builder: (context) => const delivered()),
           ),
         ),
         const SidebarXItem(

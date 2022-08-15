@@ -35,10 +35,12 @@ class _add_packageState extends State<add_package> {
   String dropdownvalue_class = '___Select Batch___';
   var Evendor =  ["___Select Evendor___","Amazon","Flipkart","Meesho","Mytra","Courier","Others"];
   var batch =  ["___Select Batch___","CSE","AIE","EEE","ELC","ECE","ME"];
-  final _amount = TextEditingController();
+  final _roll = TextEditingController();
+  final _name = TextEditingController();
 
   void clearText() {
-    _amount.clear();
+    _roll.clear();
+    _name.clear();
   }
 
   @override
@@ -87,7 +89,7 @@ class _add_packageState extends State<add_package> {
       body: SingleChildScrollView(
         child:  Stack(
                   children: <Widget>[SizedBox(
-                      height: 210,
+                      height: 120,
                       child: Stack(
                           children: [
                             Positioned(
@@ -114,7 +116,7 @@ class _add_packageState extends State<add_package> {
                                       context: context,
                                       builder: (context) {
                                         return SizedBox(
-                                          height: MediaQuery.of(context).size.height - 240,
+                                          height: MediaQuery.of(context).size.height - 150,
                                           width: MediaQuery.of(context).size.width,
                                           child: Stack(
                                             children: [
@@ -122,7 +124,7 @@ class _add_packageState extends State<add_package> {
                                                 bottom: 0,
                                                 child: Container(
                                                   width: MediaQuery.of(context).size.width,
-                                                  height: MediaQuery.of(context).size.height - 200,
+                                                  height: MediaQuery.of(context).size.height - 130,
                                                   color: const Color(0xffeef1f4).withOpacity(0.7),
                                                 ),
                                               ),
@@ -134,7 +136,7 @@ class _add_packageState extends State<add_package> {
                                                   height: 250,
                                                   padding: const EdgeInsets.only(top: 5, bottom: 25),
                                                   decoration: BoxDecoration(
-                                                    color: ColorPalette.mainColor,
+                                                    color: Color(0xffC86733),
                                                     borderRadius: BorderRadius.circular(29),
                                                   ),
                                                   child: Column(
@@ -149,12 +151,13 @@ class _add_packageState extends State<add_package> {
                                                             Navigator.pop(context);
                                                           }),
                                                       AppButton(
-                                                          text: 'Add bill',
+                                                          text: 'Clear',
                                                           backgroundColor: Colors.white,
                                                           iconColor: ColorPalette.mainColor,
                                                           textColor: Colors.white,
-                                                          iconData: Icons.add_circle,
+                                                          iconData: Icons.delete,
                                                           onTap: () {
+                                                            clearText();
                                                             Navigator.pop(context);
                                                           }),
                                                       AppButton(
@@ -185,7 +188,7 @@ class _add_packageState extends State<add_package> {
                                         BoxShadow(
                                           blurRadius: 9,
                                           offset: const Offset(0, 1),
-                                          color: const Color(0xff11324d).withOpacity(0.2),
+                                          color: const Color(0xffC86733).withOpacity(0.2),
                                         )
                                       ]),
                                 ),
@@ -194,7 +197,7 @@ class _add_packageState extends State<add_package> {
                             Stack(
                               children: const [
                                 Positioned(
-                                  left: 55,
+                                  left: 40,
                                   top: 10,
                                   child: Text(
                                     'Add Package',
@@ -208,7 +211,7 @@ class _add_packageState extends State<add_package> {
                                   child: Text(
                                     'Add Package',
                                     style: TextStyle(
-                                      fontSize: 50,
+                                      fontSize: 40,
                                       fontWeight: FontWeight.w700,
                                       color: Color(0xff293952),
                                     ),
@@ -218,9 +221,9 @@ class _add_packageState extends State<add_package> {
                             )]
                       )
                   ),Column(children:[
-                    const SizedBox(height: 200),
+                    const SizedBox(height: 110),
                    Container(
-                     height: MediaQuery.of(context).size.height - 260,
+                     height: MediaQuery.of(context).size.height - 214,
                       decoration: const BoxDecoration(
                         color: Color(0xf2FFE5B4),
                           ),
@@ -283,6 +286,7 @@ class _add_packageState extends State<add_package> {
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16,),
                       child: TextField(
+                          controller: _name,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -296,6 +300,7 @@ class _add_packageState extends State<add_package> {
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16,),
                       child: TextField(
+                        controller: _roll,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(20.0))),
