@@ -4,10 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mail_room/Delivered_package.dart';
-import 'package:mail_room/Edit_detail.dart';
 import 'package:mail_room/package_add.dart';
 import 'package:mail_room/var/var.dart';
-import '../Home_student.dart';
 import 'Login.dart';
 import 'charts/chart.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -41,17 +39,17 @@ class _Home_adminState extends State<Home_admin> {
     // TODO: implement initState
     super.initState();
     rolls();
+    isShowingMainData=true;
     Chart_pack();
     Chart_deli();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: _key,
-        backgroundColor: Color(0xf2C86733),
+        backgroundColor: const Color(0xf2C86733),
         appBar: AppBar(
-          backgroundColor: Color(0xf2FFE5B4),
+          backgroundColor: const Color(0xf2FFE5B4),
           bottomOpacity: 1,
           title: const Text(
             'Mail Department',
@@ -81,7 +79,7 @@ class _Home_adminState extends State<Home_admin> {
                   debugShowCheckedModeBanner: false,
                 ));},
                 minWidth: 30,
-                color:  Color(0x99C86733),
+                color:  const Color(0x99C86733),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -136,13 +134,13 @@ class _Home_adminState extends State<Home_admin> {
                             clipper:
                             WaveClipper(), //set our custom wave clipper
                             child: Container(
-                              color: Color(0xffFFE5B4),
+                              color: const Color(0xffFFE5B4),
                               height: 400,
                             ),
                           ),
                         ),
 
-                        ClipPath(
+                        const ClipPath(
                           //upper clippath with less height
 
                             child:Padding(
@@ -152,151 +150,149 @@ class _Home_adminState extends State<Home_admin> {
                       Column(children: [
                         Padding(
                             padding: const EdgeInsets.only(top:12,bottom: 12,left: 6,right: 6),
-                            child: Container(
-                                child:Padding(
-                                    padding: EdgeInsets.only(top:12,bottom: 12,left: 6,right: 6),
-                                    child: Container(
-                                      height: 250,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 0, right: 6),
-                                              child: SizedBox(
-                                                  width: 180,
-                                                  height: 250.0,
-                                                  child:Card(
-                                                    elevation: 2,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(20),
+                            child: Padding(
+                                padding: const EdgeInsets.only(top:12,bottom: 12,left: 6,right: 6),
+                                child: SizedBox(
+                                  height: 250,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 0, right: 6),
+                                          child: SizedBox(
+                                              width: 180,
+                                              height: 250.0,
+                                              child:Card(
+                                                elevation: 2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(20),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(24),
+                                                  child: InkWell(
+                                                    onTap: () => Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const add_package()),
                                                     ),
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(24),
-                                                      child: InkWell(
-                                                        onTap: () => Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  add_package()),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        RichText(
+                                                            text: const TextSpan(
+                                                              children: [
+                                                                WidgetSpan(
+                                                                    child: FaIcon(
+                                                                      FontAwesomeIcons
+                                                                          .boxesPacking,
+                                                                      color: Colors.red,
+                                                                      size: 30,
+                                                                    )),
+                                                              ],
+                                                            )),
+                                                        const SizedBox(height: 25),
+                                                        RichText(
+                                                            text: const TextSpan(
+                                                                text:
+                                                                'Total Package',
+                                                                style: TextStyle(
+                                                                  color:
+                                                                  Colors.black,
+                                                                  fontSize: 19,
+                                                                ))),
+                                                        const SizedBox(height: 10),
+                                                        const Divider(
+                                                          thickness: 1,
                                                         ),
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
-                                                          children: [
-                                                            RichText(
-                                                                text: TextSpan(
-                                                                  children: [
-                                                                    WidgetSpan(
-                                                                        child: FaIcon(
-                                                                          FontAwesomeIcons
-                                                                              .boxesPacking,
-                                                                          color: Colors.red,
-                                                                          size: 30,
-                                                                        )),
-                                                                  ],
-                                                                )),
-                                                            SizedBox(height: 25),
-                                                            RichText(
-                                                                text: TextSpan(
-                                                                    text:
-                                                                    'Total Package',
-                                                                    style: TextStyle(
-                                                                      color:
-                                                                      Colors.black,
-                                                                      fontSize: 19,
-                                                                    ))),
-                                                            SizedBox(height: 10),
-                                                            Divider(
-                                                              thickness: 1,
-                                                            ),
-                                                            RichText(
-                                                                text: TextSpan(
-                                                                    text: '${data['Package'].toString()}',
-                                                                    style: TextStyle(
-                                                                      color:
-                                                                      Colors.black,
-                                                                      fontSize: 30,
-                                                                    ))),
-                                                            SizedBox(height: 10),
-                                                          ],
-                                                        ),
-                                                      ),
+                                                        RichText(
+                                                            text: TextSpan(
+                                                                text: data['Package'].toString(),
+                                                                style: const TextStyle(
+                                                                  color:
+                                                                  Colors.black,
+                                                                  fontSize: 30,
+                                                                ))),
+                                                        const SizedBox(height: 10),
+                                                      ],
                                                     ),
-                                                  ))),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 6, right: 6),
-                                              child:SizedBox(
-                                                  width: 180,
-                                                  height: 250.0,
-                                                  child: Card(
-                                                    elevation: 2,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(20),
+                                                  ),
+                                                ),
+                                              ))),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 6, right: 6),
+                                          child:SizedBox(
+                                              width: 180,
+                                              height: 250.0,
+                                              child: Card(
+                                                elevation: 2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(20),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(24),
+                                                  child: InkWell(
+                                                    onTap: () => Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const delivered()),
                                                     ),
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(24),
-                                                      child: InkWell(
-                                                        onTap: () => Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  const delivered()),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                      children: [
+                                                        RichText(
+                                                            text: const TextSpan(
+                                                              children: [
+                                                                WidgetSpan(
+                                                                    child: FaIcon(
+                                                                      FontAwesomeIcons
+                                                                          .hand,
+                                                                      color: Colors.red,
+                                                                      size: 30,
+                                                                    )),
+                                                              ],
+                                                            )),
+                                                        const SizedBox(height: 25),
+                                                        RichText(
+                                                            text: const TextSpan(
+                                                                text:
+                                                                'Delivered',
+                                                                style: TextStyle(
+                                                                  color:
+                                                                  Colors.black,
+                                                                  fontSize: 19,
+                                                                ))),
+                                                        const SizedBox(height: 10),
+                                                        const Divider(
+                                                          thickness: 1,
                                                         ),
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
-                                                          children: [
-                                                            RichText(
-                                                                text: TextSpan(
-                                                                  children: [
-                                                                    WidgetSpan(
-                                                                        child: FaIcon(
-                                                                          FontAwesomeIcons
-                                                                              .hand,
-                                                                          color: Colors.red,
-                                                                          size: 30,
-                                                                        )),
-                                                                  ],
-                                                                )),
-                                                            SizedBox(height: 25),
-                                                            RichText(
-                                                                text: const TextSpan(
-                                                                    text:
-                                                                    'Delivered',
-                                                                    style: TextStyle(
-                                                                      color:
-                                                                      Colors.black,
-                                                                      fontSize: 19,
-                                                                    ))),
-                                                            SizedBox(height: 10),
-                                                            Divider(
-                                                              thickness: 1,
-                                                            ),
-                                                            RichText(
-                                                                text: TextSpan(
-                                                                    text: '${data['Delivered'].toString()}',
-                                                                    style: const TextStyle(
-                                                                      color:
-                                                                      Colors.black,
-                                                                      fontSize: 30,
-                                                                    ))),
-                                                            SizedBox(height: 10),
-                                                          ],
-                                                        ),
-                                                      ),
+                                                        RichText(
+                                                            text: TextSpan(
+                                                                text: data['Delivered'].toString(),
+                                                                style: const TextStyle(
+                                                                  color:
+                                                                  Colors.black,
+                                                                  fontSize: 30,
+                                                                ))),
+                                                        const SizedBox(height: 10),
+                                                      ],
                                                     ),
-                                                  ) ))
-                                        ],
-                                      ),
-                                    )
+                                                  ),
+                                                ),
+                                              ) ))
+                                    ],
+                                  ),
                                 )
                             )
                         ),
@@ -317,7 +313,7 @@ class _Home_adminState extends State<Home_admin> {
 class WaveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    var path = new Path();
+    var path = Path();
     path.lineTo(
         0, size.height); //start path with this if you are making at bottom
 

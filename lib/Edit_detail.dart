@@ -355,6 +355,7 @@ class _edit_packageState extends State<edit_package> {
               });
             }
             Chart_deli();
+            parcel.clear();
             final snackbar = SnackBar(
               content: const Text('Transaction Stored!'),
               action: SnackBarAction(
@@ -367,6 +368,7 @@ class _edit_packageState extends State<edit_package> {
             );
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
           } else {
+            parcel.clear();
             final snackbar = SnackBar(
               content: const Text('Roll number not matched!'),
               action: SnackBarAction(

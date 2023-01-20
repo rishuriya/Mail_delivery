@@ -130,6 +130,8 @@ class _deliveredState extends State<delivered> {
                                                 textColor: Colors.white,
                                                 iconData: Icons.delete,
                                                 onTap: () {
+                                                  parcel.clear();
+                                                  Package_list(dropdownvalue_class);
                                                   Navigator.pop(context);
                                                 }),
                                             AppButton(

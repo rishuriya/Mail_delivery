@@ -1,12 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mail_room/Delivered_package.dart';
-import 'package:mail_room/Edit_detail.dart';
-import 'package:mail_room/Home_admin.dart';
 import 'package:mail_room/Home_student.dart';
-import 'package:mail_room/charts/check.dart';
 import 'package:sidebarx/sidebarx.dart';
-
 import '../package_add.dart';
 class ExampleSidebarX extends StatelessWidget {
   const ExampleSidebarX({
@@ -82,11 +78,6 @@ class ExampleSidebarX extends StatelessWidget {
         SidebarXItem(
           icon: Icons.home,
           label: 'Home',
-      onTap: () =>Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const Home_admin()),
-      ),
         ),
         const SidebarXItem(
           icon: Icons.search,
